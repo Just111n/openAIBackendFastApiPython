@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import openai
 import os
@@ -17,6 +18,16 @@ class ChatMessage(BaseModel):
     message: str
 
 app = FastAPI()
+
+# Set up CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Allow your frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 
 # Define the chat endpoint
 @app.post("/chat")
